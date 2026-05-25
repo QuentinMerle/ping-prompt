@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ping Prompt - AI Air Hockey</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div id="download-bar-container">
+        <div id="download-progress" class="download-bar"></div>
+    </div>
+    <div id="game-wrapper">
+        <!-- TOP HUD (Score & Notifs) -->
+        <div id="top-hud-bar" class="hidden">
+            <div id="score-container">
+                <div id="score-board" aria-live="polite" aria-atomic="true">
+                    <span id="player-score">0</span>
+                    <span class="divider">-</span>
+                    <span id="ai-score">0</span>
+                </div>
+                <div id="arcade-score-display" aria-label="Score Arcade">PTS: 000000</div>
+            </div>
+            
+            <div id="dialogue-wrapper">
+                <div id="llm-indicator">
+                    <span id="llm-status-icon" class="status-idle"></span>
+                    <span id="llm-status-text">Neural Core - Connecting...</span>
+                    <span class="model-badge">Model: Phi-3-mini</span>
+                </div>
+                <div class="logs-and-chat">
+                    <div id="system-logs">
+                        <div class="log-entry">[SYSTEM] Initializing arena...</div>
+                    </div>
+                    <div id="dialogue-container">
+                        <div id="ai-avatar-name" class="ai-avatar">🤖 TRAINING_BOT_v1 :</div>
+                        <p id="narrative-text" aria-live="assertive" aria-atomic="true">« Welcome. Initiating basic training protocols. »</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ARÈNE CENTRALE -->
+        <div id="game-container">
+            <!-- CRT Overlay -->
+            <div id="crt-overlay"></div>
+        
+        <canvas id="game-canvas" width="800" height="400" role="application" aria-label="Zone de jeu Air Hockey" tabindex="0"></canvas>
+        
+        <!-- Écrans d'Interface (State Machine) -->
+        <div id="ui-overlays">
+            <!-- Start Menu Overlay -->
+            <div id="start-screen" class="overlay active">
+                <div class="menu-content">
+                    <h1 class="neon-title">PING PROMPT</h1>
+                    <p class="subtitle">Man vs. Machine</p>
+                    
+                    <div class="briefing-box">
+                        <p>An experimental Air Hockey game powered by a Local LLM & Neural Networks.<br>
+                        <strong>WARNING:</strong> The AI will learn your moves and cheat to win.</p>
+                    </div>
+                    
+                    <div class="customization-panel">
+                        <h3>SELECT ENERGY CORE</h3>
+                        <div class="color-picker">
+                            <button class="color-btn selected" data-color="#4facfe" style="background: #4facfe;"></button>
+                            <button class="color-btn" data-color="#00ffcc" style="background: #00ffcc;"></button>
+                            <button class="color-btn" data-color="#ff0055" style="background: #ff0055;"></button>
+                            <button class="color-btn" data-color="#ffdd00" style="background: #ffdd00;"></button>
+                        </div>
+                    </div>
+                    
+                    <button id="start-btn" class="cyber-btn huge-btn">INITIALIZE LINK</button>
+                    <button id="show-leaderboard-btn" class="cyber-btn" style="margin-top: 15px; background: transparent; border: 1px solid #4facfe; opacity: 0.8; font-size: 0.9rem;">LEADERBOARD</button>
+                    
+                    <div style="margin-top: 25px; font-size: 0.7rem; color: rgba(255, 255, 255, 0.4); font-family: monospace;">
+                        Music by <a href="https://pixabay.com/users/mfcc-28627740/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=297305" style="color: #4facfe; text-decoration: none;">Mykola Sosin</a> from <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=297305" style="color: #4facfe; text-decoration: none;">Pixabay</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Over Screen -->
+            <div id="game-over-screen" class="overlay hidden">
+                <div class="menu-content">
+                    <h1 id="game-over-title" class="neon-title">GAME OVER</h1>
+                    <p id="game-over-subtitle" class="subtitle">System Offline</p>
+                    <button id="rematch-btn" class="cyber-btn huge-btn" style="margin-top: 30px;">REMATCH</button>
+                </div>
+            </div>
+
+            <!-- Arcade High Score Screen -->
+            <div id="arcade-input-screen" class="overlay hidden">
+                <div class="menu-content">
+                    <h1 class="neon-title" style="color: #ffdd00; text-shadow: 0 0 10px #ffdd00;">HIGH SCORE</h1>
+                    <p class="subtitle" id="final-score-display">YOUR SCORE: 000000</p>
+                    <div class="arcade-input-container">
+                        <input type="text" id="arcade-name-input" maxlength="3" autocomplete="off" spellcheck="false" placeholder="AAA">
+                    </div>
+                    <button id="submit-score-btn" class="cyber-btn huge-btn" style="margin-top: 20px;">SUBMIT</button>
+                </div>
+            </div>
+
+            <!-- Leaderboard Screen -->
+            <div id="leaderboard-screen" class="overlay hidden">
+                <div class="menu-content" style="width: 500px;">
+                    <h2 class="neon-title" style="font-size: 3rem;">TOP 10</h2>
+                    <table class="retro-table">
+                        <thead>
+                            <tr><th>RANK</th><th>NAME</th><th>SCORE</th></tr>
+                        </thead>
+                        <tbody id="leaderboard-tbody">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                    <button id="leaderboard-close-btn" class="cyber-btn" style="margin-top: 30px;">[ ESCAPE ]</button>
+                </div>
+            </div>
+
+            <!-- Out of Top 10 Screen (Gatekeeper) -->
+            <div id="out-of-top-10-screen" class="overlay hidden">
+                <div class="menu-content">
+                    <h2 class="neon-title" style="font-size: 3rem; color: #ff0055; text-shadow: 0 0 10px #ff0055;">GAME OVER</h2>
+                    <h3 id="out-score-display" style="color: #ffdd00; font-family: 'Orbitron', monospace; font-size: 2rem; margin: 20px 0;">YOUR SCORE: 000000</h3>
+                    
+                    <div class="briefing-box" style="text-align: center;">
+                        "Bien joué humain, mais pas suffisant pour entrer dans le Top 10. Neural Core est presque déçu."
+                    </div>
+                    
+                    <button id="retry-btn" class="cyber-btn huge-btn" style="margin-top: 20px;">RETRY</button>
+                </div>
+            </div>
+
+            <!-- Cheat Alert Overlay -->
+            <div id="cheat-alert-overlay" class="hidden" role="alert" aria-live="assertive">
+                <h2 id="cheat-alert-text">SYSTEM OVERRIDE</h2>
+            </div>
+            
+            <!-- Bonus Alert Overlay -->
+            <div id="bonus-alert-overlay" class="hidden" role="status" aria-live="polite">
+                <h3 id="bonus-alert-text">SPEED UP!</h3>
+            </div>
+            
+            <!-- Écran de Pause -->
+            <div id="pause-screen" class="overlay hidden">
+                <div class="pause-content">
+                    <h2>PAUSED</h2>
+                    <p>System on standby.</p>
+                    <div style="display: flex; flex-direction: column; gap: 15px; align-items: center; margin-top: 20px;">
+                        <button id="resume-btn" class="cyber-btn">RESUME</button>
+                        <div style="display: flex; gap: 15px;">
+                            <button id="mute-btn" class="cyber-btn" style="font-size: 0.9rem; padding: 10px 20px; opacity: 0.8;">🎵 AUDIO: ON</button>
+                            <button id="voice-btn" class="cyber-btn" style="font-size: 0.9rem; padding: 10px 20px; opacity: 0.8;">🤖 VOICE: ON</button>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+        </div>
+        <!-- Fin de #ui-overlays -->
+        </div>
+        <!-- Fin de #game-container -->
+        
+        <!-- BOTTOM HUD (Brain.js) -->
+        <div id="bottom-hud-bar" class="hidden">
+            <div id="brain-hud">
+                <div class="hud-header">BRAIN.JS // PATTERN REC</div>
+                <div id="brain-hud-content">Waiting for data...</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts chargés séquentiellement pour préserver l'exécution locale (file://) sans serveur -->
+    <script src="https://unpkg.com/brain.js"></script>
+    <script src="audioManager.js"></script>
+    <script src="ai-profiler.js"></script>
+    <script src="fx.js"></script>
+    <script src="physics.js"></script>
+    <script src="entities.js"></script>
+    <script src="items.js"></script>
+    <script type="module" src="ai-director.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+.env
+
+# Mac OS
+.DS_Store
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
