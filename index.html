@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -180,15 +180,15 @@
     
     <!-- Scripts chargés séquentiellement pour préserver l'exécution locale (file://) sans serveur -->
     <script src="https://unpkg.com/brain.js"></script>
-    <script src="audioManager.js"></script>
-    <script src="ai-profiler.js"></script>
-    <script src="fx.js"></script>
-    <script src="physics.js"></script>
-    <script src="entities.js"></script>
-    <script src="items.js"></script>
-    <script type="module" src="ai-director.js"></script>
-    <script src="game.js"></script>
-    <script src="leaderboard.js"></script>
-    <script src="ui.js"></script>
+    <script src="js/systems/audioManager.js"></script>
+    <script src="js/ai/ai-profiler.js"></script>
+    <script src="js/systems/fx.js"></script>
+    <script src="js/core/physics.js"></script>
+    <script src="js/core/entities.js"></script>
+    <script src="js/systems/items.js"></script>
+    <script type="module" src="js/ai/ai-director.js"></script>
+    <script src="js/core/game.js"></script>
+    <script src="js/ui/leaderboard.js"></script>
+    <script src="js/ui/ui.js"></script>
 </body>
 </html>
