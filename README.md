@@ -1,5 +1,7 @@
 # 🏓 Ping Prompt
 
+[**🎮 PLAY IT LIVE HERE**](https://quentinmerle.github.io/ping-prompt/)
+
 An experimental asymmetric Air Hockey prototype built in Vanilla JavaScript (ES6) and HTML5 Canvas, powered by a Generative AI running directly in the browser.
 
 The player faces off against **"Neural Core"**, a cynical and arrogant AI that doesn't just play the game: it **profiles you**, **trash-talks** using speech synthesis, and actively **hacks** the DOM to cheat when it's losing!
