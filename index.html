@@ -13,8 +13,17 @@
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
-    <!-- Cabin Analytics (Routed to Vibrisse Studio) -->
-    <script async defer data-domain="vibrisse-studio.dev" src="https://scripts.withcabin.com/hello.js"></script>
+    <!-- Cabin Analytics (Uniquement sur GitHub Pages) -->
+    <script>
+        if (window.location.hostname === "quentinmerle.github.io") {
+            var cabinScript = document.createElement('script');
+            cabinScript.async = true;
+            cabinScript.defer = true;
+            cabinScript.setAttribute('data-domain', 'vibrisse-studio.dev');
+            cabinScript.src = 'https://scripts.withcabin.com/hello.js';
+            document.head.appendChild(cabinScript);
+        }
+    </script>
 </head>
 <body>
     <div id="download-bar-container">
