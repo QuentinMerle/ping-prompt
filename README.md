@@ -23,11 +23,11 @@ The player faces off against **"Neural Core"**, a cynical and arrogant AI that d
 The code is 100% modular client-side (Client-side Rendering):
 
 - `index.html`: Interface structure (Cyberpunk UI, Canvas, LLM Status, and System Logs).
-- `style.css`: Design system, "Space Grotesk" Font, Glassmorphism.
-- `physics.js` / `game.js` / `entities.js`: The physical foundation of the arcade game.
-- `ai-director.js`: The narrative brain (WebLLM Phi-3).
-- `ai-profiler.js`: The analytical brain (Brain.js).
-- `items.js` / `fx.js` / `audioManager.js`: The "Game Juice" (Bonuses, Particles, and Audio).
+- `css/style.css`: Design system, "Space Grotesk" Font, Glassmorphism.
+- `js/core/`: The physical foundation of the arcade game (`game.js`, `physics.js`, `entities.js`).
+- `js/ai/`: The narrative brain (`ai-director.js`) and analytical brain (`ai-profiler.js`).
+- `js/ui/`: UI management and Serverless leaderboard (`ui.js`, `leaderboard.js`).
+- `js/systems/`: The "Game Juice" bonuses, particles, and audio (`items.js`, `fx.js`, `audioManager.js`).
 
 ## 🚀 How to play locally?
 
