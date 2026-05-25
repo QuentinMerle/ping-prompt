@@ -9,7 +9,7 @@ The player faces off against **"Neural Core"**, a cynical and arrogant AI that d
 ## ✨ Key Features
 
 - **Custom Physics Engine (Ultra-Lean)**: Zero external frameworks. A custom engine handles elastic collisions, damping, and friction.
-- **WebGPU AI (WebLLM)**: The generative AI (using the **Phi-3-mini** model) runs entirely on your local GPU via `@mlc-ai/web-llm`. No backend server, everything is local! *Includes a Fallback "Dummy Mode" if WebGPU is not supported by the machine.*
+- **WebGPU AI (WebLLM)**: The generative AI (using the **[Microsoft Phi-3-mini-4k-instruct](https://github.com/microsoft/Phi-3CookBook)** model) runs entirely on your local GPU via [**@mlc-ai/web-llm**](https://github.com/mlc-ai/web-llm). No backend server, everything is local! *Includes a Fallback "Dummy Mode" if WebGPU is not supported by the machine.*
 - **Agentic AI (Function Calling)**: The AI is aware it's in a game. If struggling, the SLM can trigger cheat "Tools" (inverting your mouse, removing table friction, creating visual glitches, or making the puck a ghost).
 - **Profiling & Prescience (Brain.js)**: A real Multilayer Perceptron neural network trains in real-time on your shots to deduce your attacking "tendencies". This analysis not only feeds the LLM's narrative but is also **plugged into the physics engine**: the AI will pre-position itself (Prescience) to block your shots before you even hit them!
 - **Serverless "Gatekeeper" Leaderboard (Supabase)**: Cloud PostgreSQL database. To optimize writes, the Front-End filters requests by reading the 10th best score, blocking data insertion for unqualified players (Anti-Spam).

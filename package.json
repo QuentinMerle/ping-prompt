@@ -1,0 +1,9 @@
+{
+  "name": "ping-prompt",
+  "version": "1.0.0",
+  "description": "An asymmetric Air Hockey game powered by a Local WebGPU LLM.",
+  "dependencies": {
+    "@mlc-ai/web-llm": "latest",
+    "brain.js": "latest"
+  }
+}
