@@ -89,6 +89,14 @@ I see you favoring the right side, let's see how you play backwards! [TRICK: hac
         try {
             // Disparition du paramètre de fallback tools
             this.engine = await CreateMLCEngine(selectedModel, { initProgressCallback });
+            
+            // Masque la barre de progression en haut de l'écran
+            const barContainer = document.getElementById('download-bar-container');
+            if (barContainer) {
+                barContainer.style.transition = 'opacity 1s ease';
+                barContainer.style.opacity = '0';
+            }
+            
             this.setIndicator('idle', "Connected and Ready");
             if (this.badgeElement) this.badgeElement.innerText = "Phi-3-mini (WebGPU Active)";
             
