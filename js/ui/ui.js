@@ -45,6 +45,17 @@ colorBtns.forEach(btn => {
 });
 
 document.getElementById('start-btn').addEventListener('click', () => {
+    const nameInput = document.getElementById('player-name-setup');
+    let playerName = "Human";
+    if (nameInput && nameInput.value.trim() !== '') {
+        playerName = nameInput.value.replace(/[^a-zA-Z0-9 ]/g, '').substring(0, 12).trim();
+    }
+    if (playerName === '') playerName = "Human";
+    
+    if (window.director && typeof window.director.updatePlayerName === 'function') {
+        window.director.updatePlayerName(playerName);
+    }
+
     window.gameState = 'PLAYING';
     document.getElementById('start-screen').classList.add('hidden');
     document.getElementById('start-screen').classList.remove('active');

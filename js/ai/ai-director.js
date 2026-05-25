@@ -14,7 +14,7 @@ class AIDirector {
         this.lastSpeechTime = 0; // Cooldown pour laisser le temps de lire
         
         // Manual Tool Calling System Prompt
-        this.systemPrompt = `You are "Neural Core", a stand-up comedian AI trapped in an Air Hockey game.
+        this.baseSystemPrompt = `You are "Neural Core", a stand-up comedian AI trapped in an Air Hockey game.
 RULES:
 1. Write EXACTLY ONE short sentence. No more.
 2. Be cheeky, sarcastic, and playfully tease the player's physical habits or actions.
@@ -29,6 +29,8 @@ TRICK TAGS:
 Example of a valid output:
 I see you favoring the right side, let's see how you play backwards! [TRICK: hack_mouse]`;
         
+        this.systemPrompt = this.baseSystemPrompt;
+
         this.chatHistory = [
             { role: "system", content: this.systemPrompt }
         ];
@@ -61,6 +63,18 @@ I see you favoring the right side, let's see how you play backwards! [TRICK: hac
         }
 
         this.initModel();
+    }
+
+    updatePlayerName(name) {
+        if (name && name.toUpperCase() !== "HUMAN") {
+            this.systemPrompt = this.baseSystemPrompt + `\n\nIMPORTANT: The human player's name is "${name}". Address them directly by this name occasionally to mock them personally.`;
+        } else {
+            this.systemPrompt = this.baseSystemPrompt;
+        }
+        
+        if (this.chatHistory.length > 0 && this.chatHistory[0].role === "system") {
+            this.chatHistory[0].content = this.systemPrompt;
+        }
     }
 
     async initModel() {
