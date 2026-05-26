@@ -74,11 +74,27 @@ window.executeAITrick = function(toolName) {
         setTimeout(() => { window.pucks.forEach(p => p.isGhost = false); }, 4000);
     } else if (toolName === 'spawn_glitch') {
         if (typeof FX !== 'undefined') {
-            for (let i = 0; i < 5; i++) {
-                FX.spawnParticles(canvas.width / 2 + (Math.random() - 0.5) * 300, canvas.height / 2 + (Math.random() - 0.5) * 200, 40, '#f093fb', 4);
+            // Plus de particules, réparties sur tout l'écran avec des couleurs aberrantes
+            for (let i = 0; i < 12; i++) {
+                FX.spawnParticles(canvas.width * Math.random(), canvas.height * Math.random(), 30, Math.random() > 0.5 ? '#00ffcc' : '#ff0055', 8);
             }
-            FX.screenshake(30, 30);
+            FX.screenshake(40, 40);
         }
+        
+        // Vrai effet "Glitch" via les filtres CSS du canvas
+        const originalFilter = canvas.style.filter;
+        canvas.style.filter = 'invert(1) contrast(200%) hue-rotate(90deg)';
+        
+        // Flicker
+        setTimeout(() => {
+            canvas.style.filter = originalFilter;
+            setTimeout(() => {
+                canvas.style.filter = 'hue-rotate(180deg) sepia(100%)';
+                setTimeout(() => { 
+                    canvas.style.filter = originalFilter; 
+                }, 100);
+            }, 100);
+        }, 250);
     }
 };
 
