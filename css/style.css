@@ -674,3 +674,44 @@ body {
 }
 .retro-table tr:nth-child(2) td { color: #c0c0c0; }
 .retro-table tr:nth-child(3) td { color: #cd7f32; }
+
+/* =========================================
+   Mobile Warning Overlay
+   ========================================= */
+#mobile-warning {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--bg-main);
+    z-index: 99999;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.mobile-warning-content {
+    background: rgba(15, 15, 20, 0.9);
+    padding: 40px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 0, 85, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 0, 85, 0.05);
+    max-width: 90%;
+}
+
+@media (max-width: 850px), (max-height: 600px) {
+    #game-wrapper, #download-bar-container, #ui-overlays {
+        display: none !important;
+    }
+    #mobile-warning {
+        display: flex;
+    }
+    body {
+        overflow: hidden;
+    }
+}
